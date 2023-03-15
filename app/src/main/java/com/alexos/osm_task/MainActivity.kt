@@ -5,6 +5,8 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,7 +18,12 @@ import org.osmdroid.config.Configuration
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.Polyline
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
+const val INIT_ZOOM = 15.0
+const val WORK_ZOOM = 12.0
+const val DELAY: Long = 1000
 class MainActivity : AppCompatActivity() {
 
     private lateinit var pLauncher: ActivityResultLauncher<Array<String>>
@@ -52,20 +59,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initOsm() = with(binding) {
-        mapView.controller.setZoom(15.0)
-        mapView.controller.animateTo(GeoPoint( 55.7520, 37.6174))
+        mapView.controller.setZoom(INIT_ZOOM)
+        val mLocProvider = GpsMyLocationProvider(this@MainActivity)
+        val mLocOverlay = MyLocationNewOverlay(mLocProvider, mapView)
+        mLocOverlay.enableMyLocation()
+        Handler(Looper.getMainLooper()).postDelayed({
+            mapView.controller.animateTo(mLocOverlay.myLocation)
+        }, DELAY)
     }
 
     private fun moveToBOsm() = with(binding) {
         mapView.overlays.clear()
         val marker = Marker(mapView)
-        val pointB = GeoPoint(binding.latitudeB.text.toString().toDouble(), binding.longitudeB.text.toString().toDouble())
+        val pointB = GeoPoint(
+            binding.latitudeB.text.toString().toDouble(),
+            binding.longitudeB.text.toString().toDouble()
+        )
         marker.position = pointB
         marker.setInfoWindow(null)
         mapView.controller.setCenter(pointB)
         marker.icon = icon
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
-        mapView.controller.setZoom(15.0)
+        mapView.controller.setZoom(WORK_ZOOM)
         mapView.controller.animateTo(pointB)
         mapView.overlays.add(marker)
         refreshCoordinates()
@@ -74,8 +89,14 @@ class MainActivity : AppCompatActivity() {
     private fun navigateFromAToB() = with(binding) {
         val markerA = Marker(mapView)
         val markerB = Marker(mapView)
-        val pointA = GeoPoint(binding.latitudeA.text.toString().toDouble(), binding.longitudeA.text.toString().toDouble())
-        val pointB = GeoPoint(binding.latitudeB.text.toString().toDouble(), binding.longitudeB.text.toString().toDouble())
+        val pointA = GeoPoint(
+            binding.latitudeA.text.toString().toDouble(),
+            binding.longitudeA.text.toString().toDouble()
+        )
+        val pointB = GeoPoint(
+            binding.latitudeB.text.toString().toDouble(),
+            binding.longitudeB.text.toString().toDouble()
+        )
         val geoPoints: MutableList<GeoPoint> = ArrayList()
         val line = Polyline()
         geoPoints.add(pointA)
@@ -90,12 +111,11 @@ class MainActivity : AppCompatActivity() {
         markerB.icon = icon
         markerA.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
         markerB.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
-        mapView.controller.setZoom(15.0)
+        mapView.controller.setZoom(WORK_ZOOM)
         mapView.overlays.add(markerA)
         mapView.overlays.add(markerB)
         mapView.overlayManager.add(line)
         refreshCoordinates()
-
     }
 
     private fun refreshCoordinates() {

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/pointALayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/pointBLayout"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mapView">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextStyle"
+                android:text="@string/point_a"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/LatitudeTextViewTextStyle" />
+
+            <EditText
+                android:id="@+id/latitudeA"
+                style="@style/EditTextStyle"
+                tools:ignore="TouchTargetSizeCheck"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/LongitudeTextViewTextStyle" />
+
+            <EditText
+                android:id="@+id/longitudeA"
+                style="@style/EditTextStyle"
+                tools:ignore="TouchTargetSizeCheck"
+                app:hintEnabled="false"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pointBLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/pointALayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/pointALayout"
+        app:layout_constraintTop_toTopOf="@+id/pointALayout">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextStyle"
+                android:text="@string/point_b" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/LatitudeTextViewTextStyle" />
+
+            <EditText
+                android:id="@+id/latitudeB"
+                style="@style/EditTextStyle"
+                tools:ignore="TouchTargetSizeCheck"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/LongitudeTextViewTextStyle" />
+
+            <EditText
+                android:id="@+id/longitudeB"
+                style="@style/EditTextStyle"
+                tools:ignore="TouchTargetSizeCheck"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/navigateFromAToB"
+        style="@style/ButtonStyle"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/navigate_button_text"
+        app:backgroundTint="#4E55D7"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/pointALayout"
+        app:layout_constraintStart_toStartOf="@+id/pointALayout"
+        app:layout_constraintTop_toBottomOf="@+id/pointALayout"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/moveToPointBButton"
+        style="@style/ButtonStyle"
+        android:text="@string/move_to_button_text"
+        app:backgroundTint="#4E55D7"
+        app:layout_constraintBottom_toBottomOf="@+id/navigateFromAToB"
+        app:layout_constraintEnd_toEndOf="@+id/pointBLayout"
+        app:layout_constraintStart_toStartOf="@+id/pointBLayout"
+        app:layout_constraintTop_toTopOf="@+id/navigateFromAToB" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

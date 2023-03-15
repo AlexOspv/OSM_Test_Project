@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">OsmTask</string>
+    <string name="coordinate_format">xx.xxxx</string>
+    <string name="latitude">Широта:</string>
+    <string name="longitude">Долгота:</string>
+    <string name="point_a">Точка А</string>
+    <string name="point_b">Точка Б</string>
+    <string name="navigate_button_text"> Построить маршрут</string>
+    <string name="move_to_button_text"> Перейти в точку Б</string>
+</resources>
